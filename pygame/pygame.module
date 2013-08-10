@@ -1,0 +1,91 @@
+<?php
+
+/*
+* @file
+* main module
+*
+*/
+
+//Node type definitions
+include 'pygame_nodes.php';
+
+
+//Help Text
+function pygame_help($path, $arg){
+	return "<p>AI Game Help</p>";
+}
+
+//Block info
+function pygame_block_info(){
+	$blocks['pygame'] = array(
+		'info' => t('Latest Info'),
+		'cache' => DRUPAL_CACHE_PER_ROLE
+	);
+	return $blocks;
+}
+
+//Permissions
+function pygame_permission(){
+	return array(
+		'pygame_level_create' => array(
+			'title' => t('Create AI Game Level'),
+			'description' => t('Create levels for game')
+		),
+		'pygame_level_play' => array(
+			'title' => t('Play AI Game Level'),
+			'description' => t('Play levels')
+		)
+	);
+}
+
+//Menus
+function pygame_menu() {
+  $items['examples/node_example'] = array(
+    'page callback' => 'pygame_node_level_page',
+    'access arguments' => array('access content'),
+    'title' => 'Nodepygame_node_level Example',
+  );
+  return $items;
+}
+
+/**
+ * Callback that builds our content and returns it to the browser.
+ *
+ * This callback comes from hook_menu().
+ *
+ * @return
+ *   a build array
+ *   a renderable array showing a list of our nodes.
+ *
+ * @see node_load()
+ * @see node_view()
+ * @see node_example_field_formatter_view()
+ */
+function pygame_node_level_page() {
+  // We'll start building a renderable array that will be our page.
+  // For now we just declare the array.
+  $renderable_array = array();
+  // We query the database and find all of the nodes for the type we defined.
+  $sql = 'SELECT nid FROM {node} n WHERE n.type = :type AND n.status = :status';
+  $result = db_query($sql,
+    array(
+      ':type' => 'pygame_node_level',
+      ':status' => 1,
+    )
+  );
+  $renderable_array['explanation'] = array(
+    '#markup' => t("Node explanation."),
+    );
+  // Loop through each of our node_example nodes and instruct node_view
+  // to use our "example_node_list" view.
+  // http://api.drupal.org/api/function/node_load/7
+  // http://api.drupal.org/api/function/node_view/7
+  foreach ($result as $row) {
+    $node = node_load($row->nid);
+    $renderable_array['node_list'][]= node_view($node, 'example_node_list');
+  }
+  return $renderable_array;
+}
+
+
+

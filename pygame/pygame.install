@@ -1,0 +1,33 @@
+<?php
+
+/*
+function pygame_field_schema(){
+
+	return array(
+		'columns' =>
+			array(
+				'option' => array(
+					'type'=>'varchar',
+					'not null'=>true
+				)
+			)
+		);
+
+}
+*/
+
+function pygame_install(){
+	taxonomy_vocabulary_save((object) array(
+		'name' => 'AI Game Tile Set',
+		'machine_name' => 'pygame_tile_set',
+	));
+}
+
+function pygame_uninstall(){
+	$vid = db_query("SELECT vid FROM {taxonomy_vocabulary} WHERE machine_name = 'pygame_tile_set'")->fetchField();
+	if($vid){
+		taxonomy_vocabulary_delete($vid);
+	}
+	node_type_delete('pygame_node_level');
+	node_type_delete('pygame_node_tile');	
+}

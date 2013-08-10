@@ -1,0 +1,3 @@
+name = Python Game Module
+description = Allows users to create levels and program creatures
+core = 7.x
