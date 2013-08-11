@@ -5,6 +5,11 @@
 	border-collapse:collapse;
 	border-style:none;
 	}
+
+.leveltable{
+	margin-bottom: 90px;
+}	
+	
 .csstr{
 	display: table-row;
 	padding: 0px;
@@ -38,13 +43,18 @@ position: absolute; left: 0px; top: 0px; width: 320px; height: 320px;margin:0px;
 
 .tiletd{
 	display: table-cell;
-width: 101px;
-height: 101px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px solid #ffffff;
+	overflow: visible;
+}
+.tileimage{
+position: absolute;
+border: 0px solid #ffffff;
 margin: 0px;
 padding: 0px;
-border: 0px solid #ffffff;
 }
-.tileimg{
+.playerimage{
 position: absolute;
 border: 0px solid #ffffff;
 margin: 0px;

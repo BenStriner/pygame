@@ -26,7 +26,7 @@ function theme_pygame_level_display_initial($variables){
 function pygame_level_get($node){
 	$dict = array(
 		'code'=>$node->pygame_node_level_code_generate['und'][0]['value'],
-		'data'=>array('map'=>array(),'players'=>array())
+		'data'=>array('map'=>array(),'players'=>array(),'tilesize'=>array(101,85))
 	);
 	$level = pygame_run_script_with_input($dict);
 	return $level;
@@ -62,11 +62,11 @@ function pygame_node_level_codeform($form, &$form_state) {
 #Renders a level dictionary
 function pygame_level_render($level){
 //	return "<p>".print_r($level,true)."</p>";
-	$ret = "<div class='csstable'>";
+	$ret = "<div class='csstable leveltable'>";
 	for($y=0;$y<count($level->map);$y++){
 		$ret .= "<div class='csstr'>";
 		for($x=0;$x<count($level->map[$y]);$x++){
-			$ret .= "<div class='tiletd'>";
+			$ret .= "<div class='tiletd' style='width:" . $level->tilesize[0] . "px;height:" . $level->tilesize[1] . "'  >";
 			$cell = $level->map[$y][$x];
 			$tilenode = node_load($cell);
 			$img = $tilenode->pygame_node_tile_image['und'][0]['uri'];
@@ -77,6 +77,14 @@ function pygame_level_render($level){
 		$ret .= "</div>";
 	}
 	$ret .= "</div>";
+	foreach($i = 0; $i<count($level->players); $i++){
+		$pnode = node_load($level->players[$i][2]);
+		$img = $pnode->pygame_node_tile_image['und'][0]['uri'];
+		$uri = file_create_url($img);
+		$pd = "<img src='" . $uri . "' class='playerimage' " . 
+			" style='left:" . ($level->tilesize[0] * $level->players[$i][0]) . "px;top:" . ($level->tilesize[1] * $level->players[$i][1]) . "px' />";
+		$ret .= $pd;			
+	}
 	return $ret;	
 }
 
