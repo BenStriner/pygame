@@ -37,6 +37,7 @@ position: absolute; left: 0px; top: 0px; width: 320px; height: 320px;margin:0px;
 }
 
 .tiletd{
+	display: table-cell;
 width: 101px;
 height: 101px;
 margin: 0px;
