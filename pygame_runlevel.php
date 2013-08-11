@@ -148,7 +148,7 @@ function pygame_node_level_ajax_commands($code, $level_node){
 				'level'=>$level,
 				'commands'=>array()
 			)
-		)
+		);
 		$output_user = pygame_run_script_with_input($input_user);
 		
 		if(count($output_user['commands'])>0){
