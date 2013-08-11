@@ -86,6 +86,7 @@ function pygame_level_render($level){
 			" style='left:" . ($level->tilesize[0] * $level->players[$i][0]) . "px;top:" . ($level->tilesize[1] * $level->players[$i][1]) . "px' />";
 		$ret .= $pd;			
 	}
+	$ret .= "<img id='popupwin' src='" +  drupal_get_path('module','pygame') . "/images/win.jpg' class='imagepopup' style='display:hidden' />"
 	$ret .= "</div>";
 	return $ret;	
 }
@@ -129,7 +130,6 @@ function pygame_node_level_ajax_commands($code, $level_node){
 			//Pass each user command to the level code
 			$command_i = 0;
 			while($cont && ($command_i < count($output_user->commands))){
-			
 				$input_level = array(
 					'code'=>$level_node->pygame_node_level_code_run['und'][0]['value'],
 					'data'=>array(
@@ -140,7 +140,6 @@ function pygame_node_level_ajax_commands($code, $level_node){
 					)
 				);
 				$output_level=pygame_run_script_with_input($input_level);
-				//print("STARTTEST".print_r($output_level,true)."ENDTEST");
 				$commands = $output_level->levelcommands;
 				$fcommands = pygame_update_level($level, $commands);
 				$steps[] = $fcommands;
@@ -179,6 +178,8 @@ function pygame_update_level(&$level, $commands){
 			$ret[] = $command;
 		} else if($command[0]='updatetile'){
 			$level->map[$command[1]][$command[2]] = $command[3];
+			$ret[] = $command;
+		} else if($command[0]='win'){
 			$ret[] = $command;
 		}
 	}
