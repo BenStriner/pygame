@@ -1,6 +1,7 @@
 <?php
 
 //Adds content when viewing a level
+/*
 function pygame_node_level_view($node, $view_mode, $langcode){
 	if($view_mode == 'full'){
 		$node->content['pygame_leveldisplay']=array(
@@ -11,7 +12,7 @@ function pygame_node_level_view($node, $view_mode, $langcode){
 		$node->content['pygame_codeform']=drupal_build_form('pygame_node_level_codeform', $state);
 	}
 }
-
+*/
 //Initial view of level
 function pygame_level_display_initial($variables){
 	$level = pygame_level_get($variables['node']);
@@ -222,7 +223,7 @@ function pygame_run_script_with_input($input_dict){
 	$ifile = file_save_data($input);
 	$path = drupal_realpath(drupal_get_path('module','pygame').'/python_runner.py');
 	$ipath = drupal_realpath($ifile->uri);
-	$cmd = '"' . $path . '" < "'.$ipath.'"';
+	$cmd = 'python "' . $path . '" < "'.$ipath.'"';
 	$output = shell_exec($cmd);
 	$output_dict = json_decode($output);
 	return $output_dict;
