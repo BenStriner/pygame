@@ -32,9 +32,10 @@
 							{ left: ('+='+distleft), top:('+='+disttop)}, 1000
 						);
 					}
-				} else if(steps[i][j][0] == 'win'){
+				 else if(steps[i][j][0] == 'win'){
 					$('#popupwin').show();
 				}
+			}
 			}
 		}
 	;
