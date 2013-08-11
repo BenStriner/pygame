@@ -28,12 +28,21 @@
 				if(steps[i][j][0] == 'move'){
 					distleft = width * steps[i][j][2];
 					disttop = height * steps[i][j][3];
-					$('#pygame_player_'+steps[i][j][1]).animate(
-							{ left: ('+='+distleft), top:('+='+disttop)}, 1000
-						);
+					$('#level_wrapper').queue(function(){
+						$('#pygame_player_'+steps[i][j][1]).animate(
+								{ left: ('+='+distleft), top:('+='+disttop)}, 1000
+							);
+						
+						$(this).dequeue();
+						});
 					}
 				 else if(steps[i][j][0] == 'win'){
-					$('#popupwin').show();
+					$('#level_wrapper').queue(function(){
+					
+						alert("Win");
+						$('#popupwin').show();
+						$(this).dequeue();
+					});
 				}
 			}
 			}

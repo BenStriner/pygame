@@ -62,7 +62,7 @@ function pygame_node_level_codeform($form, &$form_state) {
 #Renders a level dictionary
 function pygame_level_render($level){
 //	return "<p>".print_r($level,true)."</p>";
-	$ret = "<div class='levelwrapper' >";
+	$ret = "<div class='levelwrapper' id='levelwrapper'>";
 	$ret .= "<div class='csstable leveltable'>";
 	for($y=0;$y<count($level->map);$y++){
 		$ret .= "<div class='csstr'>";
@@ -171,15 +171,15 @@ function pygame_node_level_ajax_commands($code, $level_node){
 function pygame_update_level(&$level, $commands){
 	$ret = array();
 	foreach($commands as $command){
-		if($command[0]='move'){
+		if($command[0]=='move'){
 			// move,player number,x move,y move
 			$level->players[$command[1]]['x'] += $command[2];
 			$level->players[$command[1]]['y'] += $command[3];
 			$ret[] = $command;
-		} else if($command[0]='updatetile'){
+		} else if($command[0]=='updatetile'){
 			$level->map[$command[1]][$command[2]] = $command[3];
 			$ret[] = $command;
-		} else if($command[0]='win'){
+		} else if($command[0]=='win'){
 			$ret[] = $command;
 		}
 	}
