@@ -1,7 +1,7 @@
 <?php
 
 //Adds content when viewing a level
-/*
+
 function pygame_node_level_view($node, $view_mode, $langcode){
 	if($view_mode == 'full'){
 		$node->content['pygame_leveldisplay']=array(
@@ -12,11 +12,12 @@ function pygame_node_level_view($node, $view_mode, $langcode){
 		$node->content['pygame_codeform']=drupal_build_form('pygame_node_level_codeform', $state);
 	}
 }
-*/
+
 //Initial view of level
-function pygame_level_display_initial($variables){
-	$level = pygame_level_get($variables['node']);
-	return pygame_level_render($level);
+function theme_pygame_level_display_initial($variables){
+	//	$level = pygame_level_get($variables['node']);
+	//	return pygame_level_render($level);
+	return "<p>Test Level Node: ".$variables['node']->nid."</p>;
 }
 
 //Initial level object

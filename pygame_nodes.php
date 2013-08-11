@@ -144,8 +144,10 @@ function pygame_theme($existing, $type, $theme, $path) {
     $items = array(
         'node--pygame_node_level' => array(
             'template' =>  drupal_get_path('module', 'pygame') . '/node--pygame_node_level',
-            'variables' => array('node' => (object)array())
-        )
+		),
+		'pygame_level_display_initial' => array(
+			'render element' => 'element'
+		)
     );
     return $items;
 }
