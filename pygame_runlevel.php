@@ -77,7 +77,7 @@ function pygame_level_render($level){
 		$ret .= "</div>";
 	}
 	$ret .= "</div>";
-	foreach($i = 0; $i<count($level->players); $i++){
+	for($i = 0; $i<count($level->players); $i++){
 		$pnode = node_load($level->players[$i][2]);
 		$img = $pnode->pygame_node_tile_image['und'][0]['uri'];
 		$uri = file_create_url($img);
