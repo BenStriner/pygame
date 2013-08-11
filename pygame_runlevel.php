@@ -58,7 +58,7 @@ function pygame_level_render($level){
 	$ret = "<div class='csstable'>";
 	for($y=0;$y<count($level['map']);$y++){
 		$ret .= "<div class='csstr'>";
-		for($x=0;$x<count($level['map'][$y];$x++){
+		for($x=0;$x<count($level['map'][$y]);$x++){
 			$ret .= "<div class='csstd'>";
 			$cell = $level['map'][$y][$x];
 			$tilenode = node_load($cell);
