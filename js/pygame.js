@@ -29,7 +29,10 @@
 				if(steps[i][j][0] == 'move'){
 					distleft = width * steps[i][j][2];
 					disttop = height * steps[i][j][3];
-					if(distleft != 0){
+					$('#pygame_player_'+steps[i][j][1]).animate(
+							{ left: ('+='+distleft), top:('+='+disttop)}, 1000
+						);
+/*					if(distleft != 0){
 						$('#pygame_player_'+steps[i][j][1]).animate(
 							{ left: ('+='+distleft)}, 1000
 						);
@@ -39,6 +42,7 @@
 						);
 						alert('top: '+disttop);
 						alert("height: "+height);
+						*/
 					}
 				}
 			}
