@@ -86,7 +86,7 @@ function pygame_level_render($level){
 			" style='left:" . ($level->tilesize[0] * $level->players[$i][0]) . "px;top:" . ($level->tilesize[1] * $level->players[$i][1]) . "px' />";
 		$ret .= $pd;			
 	}
-	$ret .= ("<img id='popupwin' src='" . drupal_get_path('module','pygame') . "/images/win.jpg' class='imagepopup' style='display:hidden' />");
+	$ret .= ("<img id='popupwin' src='" . drupal_get_path('module','pygame') . "/images/win.jpg' class='imagepopup' style='display:none' />");
 	$ret .= "</div>";
 	return $ret;	
 }

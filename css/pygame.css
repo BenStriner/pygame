@@ -58,7 +58,7 @@
 .imagepopup{
 	position: absolute;
 	left: 20px;
-	right: 20px;
+	top: 20px;
 }
 .tiletd{
 	display: table-cell;
