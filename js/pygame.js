@@ -26,26 +26,32 @@
 		for(i=0;i<steps.length;i++){
 			for(j=0;j<steps[i].length;j++){
 				if(steps[i][j][0] == 'move'){
-					distleft = width * steps[i][j][2];
-					disttop = height * steps[i][j][3];
-					$('#level_wrapper').queue(function(){
-						$('#pygame_player_'+steps[i][j][1]).animate(
-								{ left: ('+='+distleft), top:('+='+disttop)}, 1000
-							);
-						
-						$(this).dequeue();
-						});
-					}
+					step = steps[i][j];
+					distleft = width * step[2];
+					disttop = height * step[3];
+					cmd = "jQuery('#pygame_player_"+steps[i][j][1]+"').animate({ left: ('+="+distleft+"'), top:('+="+disttop+
+							"')}, 1000, 'swing',	function(){	jQuery('#levelwrapper').dequeue('pygamequeue');});";
+					$('#levelwrapper').queue(
+						'pygamequeue', 
+						new Function(cmd)
+					);
+
+				}
 				 else if(steps[i][j][0] == 'win'){
-					$('#level_wrapper').queue(function(){
-					
-						alert("Win");
-						$('#popupwin').show();
-						$(this).dequeue();
+					$('#levelwrapper').queue('pygamequeue', function(){
+						jQuery('#popupwin').show();
+						jQuery('#levelwrapper').dequeue('pygamequeue');
+					});
+				}
+				 else if(steps[i][j][0] == 'lose'){
+					$('#levelwrapper').queue('pygamequeue', function(){
+						jQuery('#popuplose').show();
+						jQuery('#levelwrapper').dequeue('pygamequeue');
 					});
 				}
 			}
 			}
+			$('#levelwrapper').dequeue('pygamequeue');
 		}
 	;
 })(jQuery);

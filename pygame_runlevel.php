@@ -87,6 +87,7 @@ function pygame_level_render($level){
 		$ret .= $pd;			
 	}
 	$ret .= ("<img id='popupwin' src='" . drupal_get_path('module','pygame') . "/images/win.jpg' class='imagepopup' style='display:none' />");
+	$ret .= ("<img id='popuplose' src='" . drupal_get_path('module','pygame') . "/images/lose.jpg' class='imagepopup' style='display:none' />");
 	$ret .= "</div>";
 	return $ret;	
 }
@@ -173,13 +174,15 @@ function pygame_update_level(&$level, $commands){
 	foreach($commands as $command){
 		if($command[0]=='move'){
 			// move,player number,x move,y move
-			$level->players[$command[1]]['x'] += $command[2];
-			$level->players[$command[1]]['y'] += $command[3];
+			$level->players[$command[1]][0] += $command[2];
+			$level->players[$command[1]][1] += $command[3];
 			$ret[] = $command;
 		} else if($command[0]=='updatetile'){
 			$level->map[$command[1]][$command[2]] = $command[3];
 			$ret[] = $command;
 		} else if($command[0]=='win'){
+			$ret[] = $command;
+		} else if($command[0]=='lose'){
 			$ret[] = $command;
 		}
 	}
