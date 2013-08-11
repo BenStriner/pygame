@@ -17,7 +17,7 @@ function pygame_node_level_view($node, $view_mode, $langcode){
 function theme_pygame_level_display_initial($variables){
 	//	$level = pygame_level_get($variables['node']);
 	//	return pygame_level_render($level);
-	return "<p>Test Level Node: ".$variables['node']->nid."</p>;
+	return "<p>Test Level Node: ".$variables['node']->nid."</p>";
 }
 
 //Initial level object
