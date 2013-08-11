@@ -15,3 +15,26 @@
 		}, 800);
 	};
 })(jQuery);
+
+
+(function($) {
+	$.fn.pygame_steps = function(data) {
+		d = JSON.parse(data);
+		steps=d['steps'];
+		width = d['tilesize'][0];
+		height = d['tilesize'][1];
+		for(i=0;i<steps.length;i++){
+			for(j=0;j<steps[i].length;j++){
+				if(steps[i][j][0] == 'move'){
+					left = width * steps[i][j][2];
+					top = height * steps[i][j][3];
+					$('#pygame_player_'+steps[i][j][1]).animate(
+						{ left: ('+='+left), top: ("+="+top)}, 1000
+					);
+				}
+			}
+		}
+	};
+})(jQuery);
+
+

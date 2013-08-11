@@ -4,27 +4,32 @@
 	margin: 0px;
 	border-collapse:collapse;
 	border-style:none;
-	}
+}
 
 .leveltable{
 	margin-bottom: 90px;
 }	
+
+.levelwrapper{
+	padding: 0px;
+	margin: 0px;
+	position:relative;
+}
 	
 .csstr{
 	display: table-row;
 	padding: 0px;
 	margin: 0px;
 	border-style:none;
+}
 
-	}
 .csstd {
 	display: table-cell;
 	width: 16px;
 	height: 16px;
 	padding: 0px;
 	margin: 0px;
-
-	}
+}
 .arenatile{
 	display: table-cell;
 	width: 16px;
@@ -32,13 +37,23 @@
 	padding: 0px;
 	margin: 0px;
 	border-style:none;
-
-	}
+}
 #results-container{
-position: relative;margin:0px;padding:0px;width: 320px; height: 320px;
+	position: relative;
+	margin:0px;
+	padding:0px;
+	width: 320px; 
+	height: 320px;
 }
 #results-div{
-position: absolute; left: 0px; top: 0px; width: 320px; height: 320px;margin:0px;padding:0px;overflow: hidden;
+	position: absolute; 
+	left: 0px; 
+	top: 0px; 
+	width: 320px; 
+	height: 320px;
+	margin:0px;
+	padding:0px;
+	overflow: hidden;
 }
 
 .tiletd{
@@ -47,16 +62,17 @@ position: absolute; left: 0px; top: 0px; width: 320px; height: 320px;margin:0px;
 	padding: 0px;
 	border: 0px solid #ffffff;
 	overflow: visible;
+	position: relative;
 }
 .tileimage{
-position: absolute;
-border: 0px solid #ffffff;
-margin: 0px;
-padding: 0px;
+	position: absolute;
+	border: 0px solid #ffffff;
+	margin: 0px;
+	padding: 0px;
 }
 .playerimage{
-position: absolute;
-border: 0px solid #ffffff;
-margin: 0px;
-padding: 0px;
+	position: absolute;
+	border: 0px solid #ffffff;
+	margin: 0px;
+	padding: 0px;
 }

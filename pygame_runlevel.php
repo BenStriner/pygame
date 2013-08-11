@@ -62,11 +62,12 @@ function pygame_node_level_codeform($form, &$form_state) {
 #Renders a level dictionary
 function pygame_level_render($level){
 //	return "<p>".print_r($level,true)."</p>";
-	$ret = "<div class='csstable leveltable'>";
+	$ret = "<div class='levelwrapper' >";
+	$ret .= "<div class='csstable leveltable'>";
 	for($y=0;$y<count($level->map);$y++){
 		$ret .= "<div class='csstr'>";
 		for($x=0;$x<count($level->map[$y]);$x++){
-			$ret .= "<div class='tiletd' style='width:" . $level->tilesize[0] . "px;height:" . $level->tilesize[1] . "'  >";
+			$ret .= "<div class='tiletd' style='width:" . $level->tilesize[0] . "px;height:" . $level->tilesize[1] . "px'  >";
 			$cell = $level->map[$y][$x];
 			$tilenode = node_load($cell);
 			$img = $tilenode->pygame_node_tile_image['und'][0]['uri'];
@@ -81,10 +82,11 @@ function pygame_level_render($level){
 		$pnode = node_load($level->players[$i][2]);
 		$img = $pnode->pygame_node_tile_image['und'][0]['uri'];
 		$uri = file_create_url($img);
-		$pd = "<img src='" . $uri . "' class='playerimage' " . 
+		$pd = "<img id='pygame_player_" . $i . "' src='" . $uri . "' class='playerimage' " . 
 			" style='left:" . ($level->tilesize[0] * $level->players[$i][0]) . "px;top:" . ($level->tilesize[1] * $level->players[$i][1]) . "px' />";
 		$ret .= $pd;			
 	}
+	$ret .= "</div>";
 	return $ret;	
 }
 
@@ -108,7 +110,7 @@ function pygame_node_level_ajax_commands($code, $level_node){
 
 	$level = pygame_level_get($level_node);
 
-	$level_view = $level->render();
+	//$level_view = $level->render();
 	
 	$steps = array();
 	
@@ -123,27 +125,27 @@ function pygame_node_level_ajax_commands($code, $level_node){
 			)
 		);
 		$output_user = pygame_run_script_with_input($input_user);
-		
-		if(count($output_user['commands'])>0){
+		if(count($output_user->commands)>0){
 		
 			//Pass each user command to the level code
 			$command_i = 0;
-			while($cont && ($command_i < count($output_user['commands']))){
+			while($cont && ($command_i < count($output_user->commands))){
 			
 				$input_level = array(
-					'code'=>$level_node->pygame_node_level_code_run,
+					'code'=>$level_node->pygame_node_level_code_run['und'][0]['value'],
 					'data'=>array(
-						'usercommand'=>$output_user[$command_i],
+						'usercommand'=>$output_user->commands[$command_i],
 						'cont'=>1,
 						'levelcommands'=>array(),
 						'step'=>count($steps)
 					)
 				);
 				$output_level=pygame_run_script_with_input($input_level);
-				$commands = $output_level['levelcommands'];
+				//print("STARTTEST".print_r($output_level,true)."ENDTEST");
+				$commands = $output_level->levelcommands;
 				$fcommands = pygame_update_level($level, $commands);
 				$steps[] = $fcommands;
-				if($output_level['cont']==0){
+				if($output_level->cont==0){
 					$cont=false;
 				}
 				$command_i ++;
@@ -153,10 +155,12 @@ function pygame_node_level_ajax_commands($code, $level_node){
 		}
 	}
 	
-	$steps_json = json_encode($steps);
+	$ajax_data = array('tilesize'=>$level->tilesize,'steps'=>$steps);
 	
-	$ajax_commands[] = ajax_command_replace('#results-div', $level_view);
-	$ajax_commands[] = ajax_command_invoke(NULL, 'pygame_steps', array($steps_json));
+	$ajax_json = json_encode($ajax_data);
+	
+	//$ajax_commands[] = ajax_command_replace('#results-div', $level_view);
+	$ajax_commands[] = ajax_command_invoke(NULL, 'pygame_steps', array($ajax_json));
 	return array(
 		'#type' => 'ajax',
 		'#commands' => $ajax_commands
@@ -170,11 +174,12 @@ function pygame_update_level(&$level, $commands){
 	$ret = array();
 	foreach($commands as $command){
 		if($command[0]='move'){
-			$level['players'][$command[1]]['x'] += $command[2];
-			$level['players'][$command[1]]['y'] += $command[3];
+			// move,player number,x move,y move
+			$level->players[$command[1]]['x'] += $command[2];
+			$level->players[$command[1]]['y'] += $command[3];
 			$ret[] = $command;
 		} else if($command[0]='updatetile'){
-			$level['map'][$command[1]][$command[2]] = $command[3];
+			$level->map[$command[1]][$command[2]] = $command[3];
 			$ret[] = $command;
 		}
 	}
