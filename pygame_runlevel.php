@@ -66,12 +66,12 @@ function pygame_level_render($level){
 	for($y=0;$y<count($level->map);$y++){
 		$ret .= "<div class='csstr'>";
 		for($x=0;$x<count($level->map[$y]);$x++){
-			$ret .= "<div class='csstd'>";
+			$ret .= "<div class='tiletd'>";
 			$cell = $level->map[$y][$x];
 			$tilenode = node_load($cell);
 			$img = $tilenode->pygame_node_tile_image['und'][0]['uri'];
 			$uri = file_create_url($img);
-			$ret .= '<img src="'.$uri.'" />';
+			$ret .= '<img src="'.$uri.'" class="tileimage" />';
 			$ret .= "</div>";
 		}
 		$ret .= "</div>";

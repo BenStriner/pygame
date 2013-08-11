@@ -35,3 +35,17 @@ position: relative;margin:0px;padding:0px;width: 320px; height: 320px;
 #results-div{
 position: absolute; left: 0px; top: 0px; width: 320px; height: 320px;margin:0px;padding:0px;overflow: hidden;
 }
+
+.tiletd{
+width: 101px;
+height: 101px;
+margin: 0px;
+padding: 0px;
+border: 0px solid #ffffff;
+}
+.tileimg{
+position: absolute;
+border: 0px solid #ffffff;
+margin: 0px;
+padding: 0px;
+}
