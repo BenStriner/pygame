@@ -113,7 +113,6 @@ function pygame_node_level_ajax_commands($code, $level_node){
 	//$level_view = $level->render();
 	
 	$steps = array();
-	
 	$cont=true;
 	while($cont){
 		//Get 1 or more commands from user code
@@ -156,7 +155,6 @@ function pygame_node_level_ajax_commands($code, $level_node){
 	}
 	
 	$ajax_data = array('tilesize'=>$level->tilesize,'steps'=>$steps);
-	
 	$ajax_json = json_encode($ajax_data);
 	
 	//$ajax_commands[] = ajax_command_replace('#results-div', $level_view);
@@ -165,6 +163,7 @@ function pygame_node_level_ajax_commands($code, $level_node){
 		'#type' => 'ajax',
 		'#commands' => $ajax_commands
 	);	
+	
 	
 }
 

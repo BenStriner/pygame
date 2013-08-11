@@ -20,7 +20,6 @@
 (function($) {
 	$.fn.pygame_steps = function(data) {
 		d = JSON.parse(data);
-		alert(data);
 		steps=d['steps'];
 		width = d['tilesize'][0];
 		height = d['tilesize'][1];
@@ -32,22 +31,11 @@
 					$('#pygame_player_'+steps[i][j][1]).animate(
 							{ left: ('+='+distleft), top:('+='+disttop)}, 1000
 						);
-/*					if(distleft != 0){
-						$('#pygame_player_'+steps[i][j][1]).animate(
-							{ left: ('+='+distleft)}, 1000
-						);
-					}else{
-						$('#pygame_player_'+steps[i][j][1]).animate(
-							{ top: ("+="+disttop)}, 1000
-						);
-						alert('top: '+disttop);
-						alert("height: "+height);
-						*/
 					}
 				}
 			}
 		}
-	};
+	;
 })(jQuery);
 
 
