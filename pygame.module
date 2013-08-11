@@ -9,6 +9,8 @@
 //Node type definitions
 include 'pygame_nodes.php';
 
+//Code to run a level
+include 'pygame_runlevel.php';
 
 //Help Text
 function pygame_help($path, $arg){

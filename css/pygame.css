@@ -1,0 +1,37 @@
+.csstable {
+	display: table;
+	padding: 0px;
+	margin: 0px;
+	border-collapse:collapse;
+	border-style:none;
+	}
+.csstr{
+	display: table-row;
+	padding: 0px;
+	margin: 0px;
+	border-style:none;
+
+	}
+.csstd {
+	display: table-cell;
+	width: 16px;
+	height: 16px;
+	padding: 0px;
+	margin: 0px;
+
+	}
+.arenatile{
+	display: table-cell;
+	width: 16px;
+	height: 16px;
+	padding: 0px;
+	margin: 0px;
+	border-style:none;
+
+	}
+#results-container{
+position: relative;margin:0px;padding:0px;width: 320px; height: 320px;
+}
+#results-div{
+position: absolute; left: 0px; top: 0px; width: 320px; height: 320px;margin:0px;padding:0px;overflow: hidden;
+}

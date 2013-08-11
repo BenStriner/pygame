@@ -35,52 +35,70 @@ function pygame_node_info() {
 function pygame_node_type_insert($content_type) {
 	
 	if ($content_type->type == 'pygame_node_level') {
-		// First we add the body field. Node API helpfully gives us
-		// node_add_body_field().
-		// We'll set the body label now, although we could also set
-		// it along with our other instance properties later.
-		$body_instance = node_add_body_field($content_type, t('Level Description'));
 
-		// Add our example_node_list view mode to the body instance
-		// display by instructing the body to display as a summary
+		//Body field
+		$body_instance = node_add_body_field($content_type, t('Level Description'));
 		$body_instance['display']['full'] = array(
 		  'label' => 'hidden',
-		  'type' => 'text_summary_or_trimmed',
+		  'type' => 'text_default',
 		);
-
-		// Save our changes to the body field instance.
 		field_update_instance($body_instance);
 
-		// Create all the fields we are adding to our content type.
-		foreach (_pygame_node_level_installed_fields() as $field) {
-		  field_create_field($field);
-		}
+		field_create_field(array(
+			'field_name' => 'pygame_node_level_code_generate',
+			'locked'=>TRUE,
+			'type' => 'text_long'
+		));
+		field_create_field(array(
+			'field_name' => 'pygame_node_level_code_run',
+			'locked'=>TRUE,
+			'type' => 'text_long'
+		));
+		field_create_instance(array(
+			'entity_type' => 'node',
+			'bundle' => 'pygame_node_level',
+			'field_name' => 'pygame_node_level_code_generate',
+			'label' => t('Source code to generate the level.'),
+			'widget' => array(
+				'type' => 'text_textarea',
+			),
+			'display' => array(
+				'full' => array(
+					'type'=>'hidden',
+					'label'=>'hidden'
+				)
+			)
+		));
 
-		// Create all the instances for our fields.
-		foreach (_pygame_node_level_installed_instances() as $instance) {
-		  $instance['entity_type'] = 'node';
-		  $instance['bundle'] = 'pygame_node_level';
-		  field_create_instance($instance);
-		}
-		
+		field_create_instance(array(
+			'entity_type' => 'node',
+			'bundle' => 'pygame_node_level',
+			'field_name' => 'pygame_node_level_code_run',
+			'label' => t('Source code to run the level.'),
+			'widget' => array(
+				'type' => 'text_textarea',
+			),
+			'display' => array(
+				'full' => array(
+					'type'=>'hidden',
+					'label'=>'hidden'
+				)
+			)
+		));
+
 	}else if($content_type->type=='pygame_node_tile'){
 		field_create_field( array(
-		//	'pygame_node_tile_image' => array(
 				'field_name' => 'pygame_node_tile_image',
 				'locked'=>TRUE,
 				'type' => 'image'
-			//)
 		));
 		field_create_field( array(
-	//		'pygame_node_tile_set' => array(
 				'field_name' => 'pygame_node_tile_set',
 				'locked'=>TRUE,
 				'type' => 'taxonomy_term_reference'
-		//	)
 		));
 		
 		field_create_instance( array(
-//			'pygame_node_tile_image' => array(
 				'field_name' => 'pygame_node_tile_image',
 				'entity_type' => 'node',
 				'bundle' => 'pygame_node_tile',
@@ -89,11 +107,9 @@ function pygame_node_type_insert($content_type) {
 				'widget' => array(
 					'type' => 'image_image',
 				)
-//			)
 		));
 		
 		field_create_instance( array(
-//			'pygame_node_tile_set' => array(
 				'field_name' => 'pygame_node_tile_set',
 				'entity_type' => 'node',
 				'bundle' => 'pygame_node_tile',
@@ -103,7 +119,6 @@ function pygame_node_type_insert($content_type) {
 					'vocabulary'=>'pygame_tile_set',
 					'parent'=>'0'
 				)
-	//		)
 		));	
 	}
 }
@@ -128,7 +143,7 @@ function pygame_node_tile_form($node, $form_state) {
 function pygame_theme($existing, $type, $theme, $path) {
     $items = array(
         'node--pygame_node_level' => array(
-            'template' =>  drupal_get_path('module', 'pygame_node_level') . '/node--pygame_node_level',
+            'template' =>  drupal_get_path('module', 'pygame') . '/node--pygame_node_level',
             'variables' => array('node' => (object)array())
         )
     );
@@ -139,40 +154,6 @@ function pygame_node_level_preprocess_node(&$vars) {
     $variables['theme_hook_suggestions'][] = 'node--pygame_node_level';
 }
 
-function _pygame_node_level_installed_fields() {
-	return array(
-		'pygame_node_level_code_generate' => array(
-			'field_name' => 'pygame_node_level_code_generate',
-			'locked'=>TRUE,
-			'type' => 'text_long'
-		),
-		'pygame_node_level_code_run' => array(
-			'field_name' => 'pygame_node_level_code_run',
-			'locked'=>TRUE,
-			'type' => 'text_long'
-		)
-	);
-}
-
-function _pygame_node_level_installed_instances() {
-  return array(
-    'pygame_node_level_code_generate' => array(
-      'field_name' => 'pygame_node_level_code_generate',
-      'label' => t('Source code to generate the level.'),
-      'widget' => array(
-        'type' => 'text_textarea',
-      )
-    ),
-	
-    'pygame_node_level_code_run' => array(
-      'field_name' => 'pygame_node_level_code_run',
-      'label' => t('Source code to run the level.'),
-      'widget' => array(
-        'type' => 'text_textarea',
-      )
-    )
-	);
-}
 
 /*
 function pygame_field_widget_info(){
