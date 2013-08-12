@@ -137,13 +137,17 @@ function pygame_node_level_ajax_commands($code, $level_node){
 						'usercommand'=>$output_user->commands[$command_i],
 						'cont'=>1,
 						'levelcommands'=>array(),
-						'step'=>count($steps)
+						'step'=>count($steps),
+						'level'=>$level
 					)
 				);
+//				print("INPUT".print_r($input_level, true)."INPUT");
 				$output_level=pygame_run_script_with_input($input_level);
+				//print("WWERWERWEWER: ".count($output_level->levelcommands)."dasdadasdas".count($output_user->commands));
 				$commands = $output_level->levelcommands;
 				$fcommands = pygame_update_level($level, $commands);
 				$steps[] = $fcommands;
+				//print("TESTPRINT: ".count($fcommands));
 				if($output_level->cont==0){
 					$cont=false;
 				}
