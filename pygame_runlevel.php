@@ -17,7 +17,7 @@ function pygame_node_level_view($node, $view_mode){
 //Initial view of level
 function theme_pygame_level_display_initial($variables){
 		$level = pygame_level_get($variables['element']['node']);
-		return "<div id='levelreplace' >" . pygame_level_render($level) . "</div>";
+		return pygame_level_render($level);
 }
 
 //Initial level object
@@ -159,7 +159,7 @@ function pygame_node_level_ajax_commands($code, $level_node){
 	$ajax_data = array('tilesize'=>$level->tilesize,'steps'=>$steps);
 	$ajax_json = json_encode($ajax_data);
 	
-	$ajax_commands[] = ajax_command_replace('#levelreplace', $level_view);
+	$ajax_commands[] = ajax_command_replace('#levelwrapper', $level_view);
 	$ajax_commands[] = ajax_command_invoke(NULL, 'pygame_steps', array($ajax_json));
 	return array(
 		'#type' => 'ajax',
