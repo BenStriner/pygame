@@ -19,6 +19,7 @@
 
 (function($) {
 	$.fn.pygame_steps = function(data) {
+		$('#levelwrapper').clearQueue('pygamequeue');
 		d = JSON.parse(data);
 		steps=d['steps'];
 		width = d['tilesize'][0];
