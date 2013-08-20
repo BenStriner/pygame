@@ -26,7 +26,7 @@ function pygame_level_get($node){
 		'code'=>$node->pygame_node_level_code_generate['und'][0]['value'],
 		'data'=>array('map'=>array(),'players'=>array(),'tilesize'=>array(101,85))
 	);
-	$level = pygame_run_script_with_input($dict);
+	$level = pygame_runner_level_generate($dict);
 	return $level;
 	//return $dict;
 //	return array("tk"=>"tv");
@@ -123,7 +123,8 @@ function pygame_node_level_ajax_commands($code, $level_node){
 				'commands'=>array()
 			)
 		);
-		$output_user = pygame_run_script_with_input($input_user);
+		//Run user python code
+		$output_user = pygame_runner_user($input_user);
 		if(count($output_user->commands)>0){
 		
 			//Pass each user command to the level code
@@ -139,13 +140,11 @@ function pygame_node_level_ajax_commands($code, $level_node){
 						'level'=>$level
 					)
 				);
-//				print("INPUT".print_r($input_level, true)."INPUT");
-				$output_level=pygame_run_script_with_input($input_level);
-				//print("WWERWERWEWER: ".count($output_level->levelcommands)."dasdadasdas".count($output_user->commands));
+				//Run level python code
+				$output_level=pygame_runner_level_run($input_level);
 				$commands = $output_level->levelcommands;
 				$fcommands = pygame_update_level($level, $commands);
 				$steps[] = $fcommands;
-				//print("TESTPRINT: ".count($fcommands));
 				if($output_level->cont==0){
 					$cont=false;
 				}
@@ -200,12 +199,27 @@ Encodes input as JSON
 Runs "python_runner.py" python script
 Decodes script output as JSON
 */
-function pygame_run_script_with_input($input_dict){
+
+function pygame_runner_user($input_dict){
+	$script = drupal_realpath(drupal_get_path('module','pygame').'/python_runner_user.py');
+	return pygame_runner($script, $input_dict);
+}
+
+function pygame_runner_level_generate($input_dict){
+	$script = drupal_realpath(drupal_get_path('module','pygame').'/python_runner_level_generate.py');
+	return pygame_runner($script, $input_dict);
+}
+
+function pygame_runner_level_run($input_dict){
+	$script = drupal_realpath(drupal_get_path('module','pygame').'/python_runner_level_run.py');
+	return pygame_runner($script, $input_dict);
+}
+
+function pygame_runner($script, $input_dict){
 	$input = json_encode($input_dict);
-	$ifile = file_save_data($input);
-	$path = drupal_realpath(drupal_get_path('module','pygame').'/python_runner.py');
+	$ifile = file_save_data($input);	
 	$ipath = drupal_realpath($ifile->uri);
-	$cmd = 'python "' . $path . '" < "'.$ipath.'"';
+	$cmd = 'python "' . $script . '" < "'.$ipath.'"';
 	$output = shell_exec($cmd);
 	$output_dict = json_decode($output);
 	return $output_dict;

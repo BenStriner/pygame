@@ -153,7 +153,7 @@ function pygame_theme($existing, $type, $theme, $path) {
 }
 
 function pygame_node_level_preprocess_node(&$vars) {
-    $variables['theme_hook_suggestions'][] = 'node--pygame_node_level';
+    $vars['theme_hook_suggestions'][] = 'node--pygame_node_level';
 }
 
 
