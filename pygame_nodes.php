@@ -27,10 +27,41 @@ function pygame_node_info() {
 		'description' => t('Node representing a single tile.'),
 		'title_label' => t('Tile Name'),
 		'locked' => TRUE,
-  )
+  ),
+	'pygame_node_submission' => array(
+		'name' => t('AI Game Submission'),
+		'base' => 'pygame_node_submission',
+		'description' => t('Node representing a user submission.'),
+		'title_label' => t('Level Title'),
+		'locked' => TRUE
+	)
   );
 }
 
+function pygame_register_text_fields($bundle, $fields){
+	foreach($fields as $f){
+		field_create_field(array(
+			'field_name' => $f['field_name'],
+			'locked'=>TRUE,
+			'type' => 'text_long'
+		));
+		field_create_instance(array(
+			'entity_type' => 'node',
+			'bundle' => $bundle,
+			'field_name' => $f['field_name'],
+			'label' => $f['label'],
+			'widget' => array(
+				'type' => 'text_textarea',
+			),
+			'display' => array(
+				'full' => array(
+					'type'=>'hidden',
+					'label'=>'hidden'
+				)
+			)
+		));
+	}
+}
 
 function pygame_node_type_insert($content_type) {
 	
@@ -43,49 +74,59 @@ function pygame_node_type_insert($content_type) {
 		  'type' => 'text_default',
 		);
 		field_update_instance($body_instance);
-
-		field_create_field(array(
-			'field_name' => 'pygame_node_level_code_generate',
-			'locked'=>TRUE,
-			'type' => 'text_long'
-		));
-		field_create_field(array(
-			'field_name' => 'pygame_node_level_code_run',
-			'locked'=>TRUE,
-			'type' => 'text_long'
-		));
-		field_create_instance(array(
-			'entity_type' => 'node',
-			'bundle' => 'pygame_node_level',
-			'field_name' => 'pygame_node_level_code_generate',
-			'label' => t('Source code to generate the level.'),
-			'widget' => array(
-				'type' => 'text_textarea',
-			),
-			'display' => array(
-				'full' => array(
-					'type'=>'hidden',
-					'label'=>'hidden'
+		pygame_register_text_fields(
+			'pygame_node_level',
+			array(
+				array(
+					'field_name' => 'pygame_node_level_code_generate',
+					'label' =>  t('Source code to generate the level.')
+				),
+				
+				array(
+					'field_name' => 'pygame_node_level_code_run',
+					'label' =>  t('Source code to run the level.')
 				)
 			)
-		));
+		);
+	}else if ($content_type->type == 'pygame_node_submission') {
 
-		field_create_instance(array(
-			'entity_type' => 'node',
-			'bundle' => 'pygame_node_level',
-			'field_name' => 'pygame_node_level_code_run',
-			'label' => t('Source code to run the level.'),
-			'widget' => array(
-				'type' => 'text_textarea',
-			),
-			'display' => array(
-				'full' => array(
-					'type'=>'hidden',
-					'label'=>'hidden'
+		//Body field
+		$body_instance = node_add_body_field($content_type, t('Level Description'));
+		$body_instance['display']['full'] = array(
+		  'label' => 'hidden',
+		  'type' => 'text_default',
+		);
+		field_update_instance($body_instance);
+		pygame_register_text_fields(
+			'pygame_node_level',
+			array(
+				array(
+					'field_name' => 'pygame_node_level_code_generate',
+					'label' =>  t('Source code to generate the level.')
+				),
+				
+				array(
+					'field_name' => 'pygame_node_level_code_run',
+					'label' =>  t('Source code to run the level.')
+				),
+				
+				array(
+					'field_name' => 'pygame_node_level_code_submission',
+					'label' =>  t('Source code submission.')
+				),
+				
+				array(
+					'field_name' => 'pygame_node_level_map',
+					'label' =>  t('JSON representation of map.')
+				),
+				
+				array(
+					'field_name' => 'pygame_node_level_steps',
+					'label' =>  t('JSON representation of steps.')
 				)
 			)
-		));
-
+		);
+		
 	}else if($content_type->type=='pygame_node_tile'){
 		field_create_field( array(
 				'field_name' => 'pygame_node_tile_image',
