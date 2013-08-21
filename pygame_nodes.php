@@ -143,7 +143,7 @@ function pygame_node_type_insert($content_type) {
 		),
 		'locked'=>TRUE,
 		'cardinality'=>1
-	);
+	));
 	field_create_instance( array(
 		'field_name' => 'pygame_node_submission_level',
 		'entity_type' => 'node',
@@ -153,7 +153,7 @@ function pygame_node_type_insert($content_type) {
 	    "widget"=>array(
 	      "type"=>"options_select"
 	    ),
-	  );
+	  ));
 	
 		//Win or lose
 		field_create_field(array(
@@ -167,7 +167,7 @@ function pygame_node_type_insert($content_type) {
 			),
 			'locked'=>TRUE,
 			'cardinality'=>1
-		);
+		));
 		
 		field_create_instance( array(
 			'field_name' => 'pygame_node_submission_win',

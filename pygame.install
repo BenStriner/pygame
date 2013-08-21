@@ -30,4 +30,5 @@ function pygame_uninstall(){
 	}
 	node_type_delete('pygame_node_level');
 	node_type_delete('pygame_node_tile');	
+	node_type_delete('pygame_node_submission');	
 }
