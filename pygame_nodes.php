@@ -98,34 +98,86 @@ function pygame_node_type_insert($content_type) {
 		);
 		field_update_instance($body_instance);
 		pygame_register_text_fields(
-			'pygame_node_level',
+			'pygame_node_submission',
 			array(
 				array(
-					'field_name' => 'pygame_node_level_code_generate',
+					'field_name' => 'pygame_node_submission_code_generate',
 					'label' =>  t('Source code to generate the level.')
 				),
 				
 				array(
-					'field_name' => 'pygame_node_level_code_run',
+					'field_name' => 'pygame_node_submission_code_run',
 					'label' =>  t('Source code to run the level.')
 				),
 				
 				array(
-					'field_name' => 'pygame_node_level_code_submission',
+					'field_name' => 'pygame_node_submission_code_submission',
 					'label' =>  t('Source code submission.')
 				),
 				
 				array(
-					'field_name' => 'pygame_node_level_map',
+					'field_name' => 'pygame_node_submission_map',
 					'label' =>  t('JSON representation of map.')
 				),
 				
 				array(
-					'field_name' => 'pygame_node_level_steps',
+					'field_name' => 'pygame_node_submission_steps',
 					'label' =>  t('JSON representation of steps.')
+				),
+				
+				array(
+					'field_name' => 'pygame_node_submission_output',
+					'label' =>  t('Python output and errors.')
 				)
 			)
 		);
+		
+	//Reference to the level that was run
+	field_create_field(array(
+		'field_name' => 'pygame_node_submission_level',
+		"type"=>"node_reference",
+		"settings"=>array(
+			"referenceable_types"=>array(
+				"pygame_node_level"=>"pygame_node_level"
+			),
+		),
+		'locked'=>TRUE,
+		'cardinality'=>1
+	);
+	field_create_instance( array(
+		'field_name' => 'pygame_node_submission_level',
+		'entity_type' => 'node',
+	    "label"=>"Field label",
+	    "type"=>"node_reference",
+		'bundle'=>'pygame_node_submission',
+	    "widget"=>array(
+	      "type"=>"options_select"
+	    ),
+	  );
+	
+		//Win or lose
+		field_create_field(array(
+			'field_name' => 'pygame_node_submission_win',
+			"type"=>"list_boolean",
+			'settings' => array(
+				'allowed_values' => array(
+				  '0' => 'No',
+				  '1' => 'Yes',
+				),
+			),
+			'locked'=>TRUE,
+			'cardinality'=>1
+		);
+		
+		field_create_instance( array(
+			'field_name' => 'pygame_node_submission_win',
+			'entity_type' => 'node',	
+			'bundle'=>'pygame_node_submission',
+			'widget' => array(
+				'type' => 'options_onoff',
+			),
+			'label'=>'Won?',
+		));
 		
 	}else if($content_type->type=='pygame_node_tile'){
 		field_create_field( array(
@@ -178,6 +230,9 @@ function pygame_node_level_form($node, $form_state) {
 	return node_content_form($node, $form_state);
 }
 function pygame_node_tile_form($node, $form_state) {
+	return node_content_form($node, $form_state);
+}
+function pygame_node_submission_form($node, $form_state) {
 	return node_content_form($node, $form_state);
 }
 
